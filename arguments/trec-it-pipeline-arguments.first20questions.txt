@@ -1,0 +1,11 @@
+-trainQuestionsPath data/trec-it/train2393.num-recovered.questions.head20.txt
+-trainCandidatesPath data/trec-it/lucene.BM25_it.first20questions.txt
+-trainCasesDir CASes/trec-it/
+-trainOutputDir data/trec-it/train/
+-testQuestionsPath data/trec-it/train2393.num-recovered.questions.head20.txt
+-testCandidatesPath data/trec-it/lucene.BM25_it.first20questions.txt
+-testCasesDir CASes/trec-it/
+-testOutputDir data/trec-it/test/
+-candidatesToKeepInTrain 10
+-candidatesToKeepInTest 50
+-lang it

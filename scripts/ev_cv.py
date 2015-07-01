@@ -63,10 +63,10 @@ def stats_cv(path=".",  format="trec", prefix="svm", th=50, verbose=False):
       sys.exit(1)
 
     # MRR
-    mrr_se = metrics.mrr(ir, th)
-    mrr_svm = metrics.mrr(svm, th)
+    mrr_se = metrics.mrr(ir, th) or 1
+    mrr_svm = metrics.mrr(svm, th) 
     mrrs_se.append(mrr_se)
-    mrrs_svm.append(mrr_svm)
+    mrrs_svm.append(mrr_svm) 
 
     # improvement
     abs_mrr_diff = mrr_svm - mrr_se
@@ -77,10 +77,10 @@ def stats_cv(path=".",  format="trec", prefix="svm", th=50, verbose=False):
     print "MRR: %5.2f %5.2f %+6.2f%% %+6.2f%%" % (mrr_se, mrr_svm, abs_mrr_diff, rel_mrr_diff) 
 
     # MAP
-    map_se = metrics.map(ir)
+    map_se = metrics.map(ir) or 1
     map_svm = metrics.map(svm)
-    maps_se.append(map_se)
-    maps_svm.append(map_svm)    
+    maps_se.append(map_se) 
+    maps_svm.append(map_svm)
 
     # improvement
     abs_map_diff = map_svm - map_se
@@ -90,7 +90,7 @@ def stats_cv(path=".",  format="trec", prefix="svm", th=50, verbose=False):
     print "MAP: %5.2f %5.2f %+6.2f%% %+6.2f%%" % (map_se, map_svm, abs_map_diff, rel_map_diff) 
 
     # Recall-of-1@1
-    rec_se = metrics.recall_of_1(ir, th)[0]
+    rec_se = metrics.recall_of_1(ir, th)[0] or 1
     rec_svm = metrics.recall_of_1(svm, th)[0]
     recalls1_se.append(rec_se)
     recalls1_svm.append(rec_svm)

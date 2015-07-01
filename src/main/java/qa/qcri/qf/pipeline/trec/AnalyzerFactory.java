@@ -2,6 +2,8 @@ package qa.qcri.qf.pipeline.trec;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 
+import java.io.IOException;
+
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngine;
 import org.apache.uima.fit.factory.AnalysisEngineFactory;
@@ -9,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import qa.qcri.qf.annotators.IllinoisChunker;
+import qa.qcri.qf.italian.textpro.TextProWrapper;
 import qa.qcri.qf.pipeline.Analyzer;
 import qa.qcri.qf.pipeline.serialization.UIMAPersistence;
 import de.tudarmstadt.ukp.dkpro.core.opennlp.OpenNlpPosTagger;
@@ -43,6 +46,10 @@ public abstract class AnalyzerFactory {
 			logger.info("instantiating en analyzer");
 			analyzer = newTrecPipelineEnAnalyzer(persistence);
 			break;
+		case "it":
+			logger.info("instantiating it analyzer");
+			analyzer = newTrecPipelineItAnalyzer(persistence);
+			break;
 		default:
 			logger.info("instantiating en analyzer (default)");
 			analyzer = newTrecPipelineEnAnalyzer(persistence);
@@ -50,6 +57,30 @@ public abstract class AnalyzerFactory {
 		}
 
 		return analyzer;
+	}
+	
+	private static Analyzer newTrecPipelineItAnalyzer(
+			UIMAPersistence persistence) throws UIMAException {
+		assert persistence != null;
+
+		Analyzer ae = new Analyzer(persistence);
+		final String GRAMMAR_FILE = "/home/antonio/workspace-java/Iyas/tools/TextPro1.5.2_Linux64bit/ParseBer/italian_parser/BerkeleyParser-Italian/tutall-fulltrain";
+
+		try {
+			ae.addAEDesc(createEngineDescription("desc/Iyas/TextProAllInOneDescriptor", 
+					TextProWrapper.PARAM_VERBOSE, true));
+			//ae.addAEDesc(createEngineDescription("desc/Iyas/BerkeleyITDescriptor",
+			//		BerkeleyWrapper.PARAM_GRAMMARFILE, GRAMMAR_FILE,
+			//		BerkeleyWrapper.PARAM_ACCURATE, true,
+			//		BerkeleyWrapper.PARAM_MAXLENGTH, 250,
+			//		BerkeleyWrapper.PARAM_USEGOLDPOS, true));
+			/** Very poor constituency chunker. */
+			// ae.addAE(createEngine(ConstituencyTreeChunker.class));
+		} catch (IOException e) {
+			throw new UIMAException(e);
+		}
+
+		return ae;
 	}
 
 	private static Analyzer newTrecPipelineEnAnalyzer(

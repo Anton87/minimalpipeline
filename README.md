@@ -45,14 +45,28 @@ Add the line to  ~/.bashrc or ~/.bash_profile in order to automatically set the 
 You will need Maven for building this project. Install maven for your operating system (e.g. sudo
 apt-get install maven).  
 
+
+
+Follow the instructions contained 
+
 ## Installation
 
 Clone the minimal pipeline from the repository with:
 
 ```
-git clone https://github.com/mnicosia/minimalpipeline.git
+git clone https://github.com/Anton87/minimalpipeline.git minimalpipelineita
 ```
 
+
+### TextPro
+
+You will need TextPro to build this project. TextPro is not provided with this software.
+
+```
+
+unzip TextPro1.5.2_Linux64bit.zip -d /path/to/project/tools
+
+```
 
 Go to the project main directory and type:
 
@@ -72,7 +86,7 @@ mvn clean dependency:copy-dependencies package
 ./run.sh
 ```
 
-Look into the run.sh script and the arguments/trec-en-pipeline-arguments.txt file to understand what is happening.  
+Look into the run.sh script and the arguments/trec-it-pipeline-arguments.first20questions.txt file to understand what is happening.  
 
 The first run will take time since Maven is downloading JARs and model files.  
 
@@ -91,9 +105,9 @@ Go to the tools/SVM-Light-1.5-rer/ folder and type:
 The experiment consists into reranking candidate answer passages related to questions from the TREC dataset.
 This dataset contains 824 questions and their answer patterns. The candidate answer passages come from the AQUAINT corpus. The latter was indexed and queried using the question terms in order to retrieve a list of related passages.
 
-`data/trec-en/questions.txt` contains the questions
+`data/trec-it/train2393.num-recovered.questions.head20.txt` contains the questions
 
-`data/trec-en/terrier.BM25b0.75_0` contains the candidate answer passages
+`data/trec-it/lucene.BM25_it.first20questions.txt` contains the candidate answer passages
 
 ### The pipeline
 
@@ -101,26 +115,26 @@ The `TrecPipelineRunner` program is used to execute the pipeline which analyzes 
 
 The program arguments are:
 
-`-argumentsFilePath arguments/trec-en-pipeline-arguments.txt`
+`-argumentsFilePath arguments/trec-it-pipeline-arguments.txt`
 
 This file contains all the actual arguments of the program.
 
 ```
--trainQuestionsPath data/trec-en/questions.txt  
+-trainQuestionsPath data/trec-it/train2393.num-recovered.questions.head20.txt 
 
--trainCandidatesPath data/trec-en/terrier.BM25b0.75_0  
+-trainCandidatesPath data/trec-it/lucene.BM25_it.first20questions.txt  
 
--trainCasesDir CASes/trec-en/  
+-trainCasesDir CASes/trec-it/  
 
--trainOutputDir data/trec-en/train/  
+-trainOutputDir data/trec-it/train/
 
--testQuestionsPath data/trec-en/questions.txt  
+-testQuestionsPath data/trec-it/train2393.num-recovered.questions.head20.txt  
 
--testCandidatesPath data/trec-en/terrier.BM25b0.75_0  
+-testCandidatesPath data/trec-it/lucene.BM25_it.first20questions.txt  
 
--testCasesDir CASes/trec-en/  
+-testCasesDir CASes/trec-it/  
 
--testOutputDir data/trec-en/test/  
+-testOutputDir data/trec-it/test/  
 
 -candidatesToKeepInTrain 10  
 
@@ -137,7 +151,7 @@ The Java virtual machine arguments are the following:
 
 This argument sets the logging properties.
 
-After the execution of the pipeline, in `data/trec-en/` there will be the `train` and `test` folders with the data required for the experiment.
+After the execution of the pipeline, in `data/trec-it/` there will be the `train` and `test` folders with the data required for the experiment.
 
 ### Settings
 
@@ -150,7 +164,7 @@ Out of 824 questions only 416 are used to generate training examples because the
 Run:
 
 ```
-python scripts/folds.py data/trec-en/ 5
+python scripts/folds.py data/trec-it/ 5
 ```
 
 in order to take the training and testing examples produced by the pipeline and split them into five folds. The scripts assumes that the train and test data are contained in the given directory.
@@ -160,7 +174,7 @@ in order to take the training and testing examples produced by the pipeline and 
 The command:
 
 ```
-python scripts/svm_run_cv.py --params="-t 5 -F 3 -C + -W R -V R -m 400" --ncpus 2 data/trec-en/folds/
+python scripts/svm_run_cv.py --params="-t 5 -F 3 -C + -W R -V R -m 400" --ncpus 2 data/trec-it/folds/
 ```
 
 will launch the learning, the reranking and eventually, the evaluation, which will be carried out on the single folds. Also metrics averaged on all folds will be print on screen. The `--ncpus` parameter can be used to parallelize the jobs.

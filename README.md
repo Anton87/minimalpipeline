@@ -57,10 +57,11 @@ Clone the minimal pipeline from the repository with:
 git clone https://github.com/Anton87/minimalpipeline.git minimalpipelineita
 ```
 
+## ------ UPDATE! 01/07/2015 1pm ------
 
 ### TextPro
 
-You will need TextPro 1.5.2 to build this project. TextPro is not provided with this software.
+You will need TextPro 1.5.2 to build this project. TextPro is not provided with the pipeline.
 
 ```
 
@@ -107,7 +108,7 @@ Go to the tools/SVM-Light-1.5-rer/ folder and type:
 ### The experiment
 The experiment consists into reranking candidate answer passages related to questions from the TREC dataset.
 This dataset contains 20 questions and their answer passages. The candidate answer passages  were searched in the italian language version of Wikipedia. The latter was indexed and queries using the question terms in order to retrieved a list of related passages.
-#This dataset contains 824 questions and their answer patterns. The candidate answer passages come from the AQUAINT corpus. The latter was indexed and queried using the question terms in order to retrieve a list of related passages.
+<!-- This dataset contains 824 questions and their answer patterns. The candidate answer passages come from the AQUAINT corpus. The latter was indexed and queried using the question terms in order to retrieve a list of related passages. -->
 
 `data/trec-it/train2393.num-recovered.questions.head20.txt` contains the questions
 
@@ -144,7 +145,7 @@ This file contains all the actual arguments of the program.
 
 -candidatesToKeepInTest 50  
 
--lang en  
+-lang it  
 ```
 
 The same files are passed in both training and testing since we will generate the training and test data in a cross validation fashion.
@@ -161,17 +162,17 @@ After the execution of the pipeline, in `data/trec-it/` there will be the `train
 
 The candidates kept for training are 10 while the candidates kept for testing are 20.
 
-#Out of 824 questions only 416 are used to generate training examples because the others do not have valid candidate passages in the top-50 candidates list.
+<!-- Out of 824 questions only 416 are used to generate training examples because the others do not have valid candidate passages in the top-50 candidates list. -->
 
 ### Producing the folds
 
 Run:
 
 ```
-python scripts/folds.py data/trec-it/ 5
+python scripts/folds.py data/trec-it/ 3
 ```
 
-in order to take the training and testing examples produced by the pipeline and split them into five folds. The scripts assumes that the train and test data are contained in the given directory.
+in order to take the training and testing examples produced by the pipeline and split them into three folds. The scripts assumes that the train and test data are contained in the given directory.
 
 ### Learning, reranking and evaluation
 

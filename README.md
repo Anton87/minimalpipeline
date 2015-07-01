@@ -81,7 +81,7 @@ mvn compile
 Then
 
 ```
-mvn clean dependency:copy-dependencies package
+mvn -DskipTests clean dependency:copy-dependencies package
 ```
 
 ## Running the pipeline

@@ -60,13 +60,16 @@ git clone https://github.com/Anton87/minimalpipeline.git minimalpipelineita
 
 ### TextPro
 
-You will need TextPro to build this project. TextPro is not provided with this software.
+You will need TextPro 1.5.2 to build this project. TextPro is not provided with this software.
 
 ```
 
 unzip TextPro1.5.2_Linux64bit.zip -d /path/to/project/tools
 
 ```
+
+Follow the instructions written in the README file of your TextPro distribution to properly install TextPro.
+
 
 Go to the project main directory and type:
 
@@ -103,7 +106,8 @@ Go to the tools/SVM-Light-1.5-rer/ folder and type:
 
 ### The experiment
 The experiment consists into reranking candidate answer passages related to questions from the TREC dataset.
-This dataset contains 824 questions and their answer patterns. The candidate answer passages come from the AQUAINT corpus. The latter was indexed and queried using the question terms in order to retrieve a list of related passages.
+This dataset contains 20 questions and their answer passages. The candidate answer passages  were searched in the italian language version of Wikipedia. The latter was indexed and queries using the question terms in order to retrieved a list of related passages.
+#This dataset contains 824 questions and their answer patterns. The candidate answer passages come from the AQUAINT corpus. The latter was indexed and queried using the question terms in order to retrieve a list of related passages.
 
 `data/trec-it/train2393.num-recovered.questions.head20.txt` contains the questions
 
@@ -115,7 +119,7 @@ The `TrecPipelineRunner` program is used to execute the pipeline which analyzes 
 
 The program arguments are:
 
-`-argumentsFilePath arguments/trec-it-pipeline-arguments.txt`
+`arguments/trec-it-pipeline-arguments.first20questions.txt`
 
 This file contains all the actual arguments of the program.
 
@@ -155,9 +159,9 @@ After the execution of the pipeline, in `data/trec-it/` there will be the `train
 
 ### Settings
 
-The candidates kept for training are 10 while the candidates kept for testing are 50.
+The candidates kept for training are 10 while the candidates kept for testing are 20.
 
-Out of 824 questions only 416 are used to generate training examples because the others do not have valid candidate passages in the top-50 candidates list.
+#Out of 824 questions only 416 are used to generate training examples because the others do not have valid candidate passages in the top-50 candidates list.
 
 ### Producing the folds
 
